@@ -1,33 +1,64 @@
 package by.restonov.infohandling.entity.impl;
 
-import by.restonov.infohandling.entity.IText;
+import by.restonov.infohandling.entity.ComponentType;
+import by.restonov.infohandling.entity.TextComponent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextComposite implements IText {
-    private List<IText> text = new ArrayList<>();
+public class TextComposite implements TextComponent {
+    private static final int PARAGRAPH_INDEX = 1;
+    private List<TextComponent> components = new ArrayList<>();
+    private ComponentType componentType;
 
-    @Override
-    public void addElement(IText text) {
-        this.text.add(text);
+    public TextComposite(ComponentType componentType) {
+        this.componentType = componentType;
     }
 
     @Override
-    public void removeElement(IText text) {
-        this.text.remove(text);
+    public boolean add(TextComponent component) {
+        return components.add(component);
     }
 
     @Override
-    public IText getElement(int index) {
-        return text.get(index);
+    public boolean remove(TextComponent component) {
+        return components.remove(component);
+    }
+
+    @Override
+    public ComponentType getComponentType() {
+        return componentType;
+    }
+
+    @Override
+    public TextComponent getChild(TextComponent component) {
+        switch (component.getComponentType()) {
+            case TEXT: return components.get(PARAGRAPH_INDEX);
+        }
+        return null;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("TextComposite{");
-        sb.append("text=").append(text);
-        sb.append('}');
-        return sb.toString();
-    }
+            StringBuilder sb = new StringBuilder();
+            for (TextComponent component : components) {
+                switch (component.getComponentType()) {
+                    case TEXT:
+                    case WORD:
+                    case LEXEME:
+                        sb.append(component.toString()).append(" ");
+                        break;
+                    case PARAGRAPH:
+                        sb.append(component.toString()).append("\n");
+                        break;
+                    case SYMBOL:
+                    case SENTENCE:
+                        sb.append(component.toString());
+                        break;
+                    default: sb.append(" ");
+                }
+            }
+            return sb.toString();
+        }
 }
+
