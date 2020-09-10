@@ -1,11 +1,11 @@
 package by.restonov.infohandling.entity;
 
-import by.restonov.infohandling.exception.WrongOperationException;
+import java.util.List;
 
 public interface TextComponent {
     boolean add(TextComponent component);
     boolean remove(TextComponent component);
     ComponentType getComponentType();
-    TextComponent getChild(TextComponent component) throws WrongOperationException;
+    List<TextComponent> getComponents();
     String toString();
 }

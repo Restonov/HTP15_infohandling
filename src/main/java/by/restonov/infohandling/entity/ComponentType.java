@@ -1,5 +1,5 @@
 package by.restonov.infohandling.entity;
 
 public enum ComponentType {
-    TEXT, PARAGRAPH, SENTENCE, LEXEME, WORD, SYMBOL
+    TEXT, PARAGRAPH, SENTENCE, LEXEME, SYMBOL
 }

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TextComposite implements TextComponent {
-    private static final int PARAGRAPH_INDEX = 1;
     private List<TextComponent> components = new ArrayList<>();
     private ComponentType componentType;
 
@@ -31,34 +30,26 @@ public class TextComposite implements TextComponent {
     }
 
     @Override
-    public TextComponent getChild(TextComponent component) {
-        switch (component.getComponentType()) {
-            case TEXT: return components.get(PARAGRAPH_INDEX);
-        }
-        return null;
+    public List<TextComponent> getComponents() {
+        return components;
     }
 
     @Override
     public String toString() {
-            StringBuilder sb = new StringBuilder();
+            var builder = new StringBuilder();
             for (TextComponent component : components) {
-                switch (component.getComponentType()) {
-                    case TEXT:
-                    case WORD:
-                    case LEXEME:
-                        sb.append(component.toString()).append(" ");
-                        break;
-                    case PARAGRAPH:
-                        sb.append(component.toString()).append("\n");
-                        break;
-                    case SYMBOL:
-                    case SENTENCE:
-                        sb.append(component.toString());
-                        break;
-                    default: sb.append(" ");
+                ComponentType type = component.getComponentType();
+                if (type == ComponentType.LEXEME) {
+                    builder.append(" ");
+                }
+                builder.append(component);
+                if (type == ComponentType.SENTENCE) {
+                    builder.append(" ");
+                } else if (type == ComponentType.PARAGRAPH) {
+                    builder.append("\n");
                 }
             }
-            return sb.toString();
+            return builder.toString();
         }
 }
 

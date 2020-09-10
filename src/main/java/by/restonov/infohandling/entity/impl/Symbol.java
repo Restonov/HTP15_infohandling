@@ -2,7 +2,8 @@ package by.restonov.infohandling.entity.impl;
 
 import by.restonov.infohandling.entity.ComponentType;
 import by.restonov.infohandling.entity.TextComponent;
-import by.restonov.infohandling.exception.WrongOperationException;
+
+import java.util.List;
 
 public class Symbol implements TextComponent {
     private char symbol;
@@ -29,8 +30,8 @@ public class Symbol implements TextComponent {
     }
 
     @Override
-    public TextComponent getChild(TextComponent component) throws WrongOperationException {
-        throw new WrongOperationException();
+    public List<TextComponent> getComponents() {
+        return null;
     }
 
     @Override
