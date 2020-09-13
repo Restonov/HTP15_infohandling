@@ -1,6 +1,6 @@
-package by.restonov.infohandling.interpreter.impl;
+package by.restonov.infohandling.evaluator;
 
-import by.restonov.infohandling.interpreter.BaseInterpreter;
+import by.restonov.infohandling.exception.CustomProjectException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,18 +11,27 @@ import javax.script.ScriptException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TextInterpreter implements BaseInterpreter {
+public class TextEvaluator {
     static Logger logger = LogManager.getLogger();
     private static int variableI = 5;
     private static int variableJ = 4;
-    private static final String DELIMITER = " ";
     private static final String AT_LEAST_ONE_DIGIT = ".*\\d+.*";
+    private static final String DELIMITER = " ";
 
-    @Override
-    public String interpret(String text){
+    public String evaluate(String text){
         String context = Stream.of(text.split(DELIMITER))
-                .map(TextInterpreter::replaceVariable)
-                .map(TextInterpreter::calculate)
+                .map(TextEvaluator::replaceVariable)
+                .map(s ->
+                        {
+                            String result = null;
+                            try {
+                                result = calculateExpression(s);
+                            } catch (CustomProjectException e) {
+                                e.printStackTrace();
+                            }
+                            return result;
+                        }
+                )
                 .collect(Collectors.joining(DELIMITER));
         return context;
     }
@@ -46,15 +55,16 @@ public class TextInterpreter implements BaseInterpreter {
         return checked;
     }
 
-    private static String calculate(String expression) {
-        Object result = expression;
-        if (expression.matches(AT_LEAST_ONE_DIGIT)) {
+    private static String calculateExpression(String text) throws CustomProjectException {
+        Object result = text;
+        if (text.matches(AT_LEAST_ONE_DIGIT)) {
             ScriptEngineManager manager = new ScriptEngineManager();
             ScriptEngine engine = manager.getEngineByName("js");
             try {
-                result = engine.eval(expression);
+                result = engine.eval(text);
             } catch (ScriptException e) {
-                e.printStackTrace();
+                logger.error("ScriptEngine error", e);
+                throw new CustomProjectException("ScriptEngine error", e);
             }
         }
         return String.valueOf(result);

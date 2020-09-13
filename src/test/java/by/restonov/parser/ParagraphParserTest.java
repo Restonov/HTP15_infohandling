@@ -12,7 +12,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class TextParserTest extends Assert {
+public class ParagraphParserTest extends Assert {
     BaseParser parser;
     TextComponent symbol1;
     TextComponent symbol2;
@@ -21,7 +21,6 @@ public class TextParserTest extends Assert {
     TextComponent lexeme;
     TextComponent sentence;
     TextComponent paragraph;
-    TextComponent text;
 
     @BeforeTest
     public void setUp() {
@@ -39,8 +38,6 @@ public class TextParserTest extends Assert {
         sentence.add(lexeme);
         paragraph = new TextComposite(ComponentType.PARAGRAPH);
         paragraph.add(sentence);
-        text = new TextComposite(ComponentType.TEXT);
-        text.add(paragraph);
     }
 
     @AfterTest
@@ -53,12 +50,11 @@ public class TextParserTest extends Assert {
         lexeme = null;
         sentence = null;
         paragraph = null;
-        text = null;
     }
 
     @Test
-    public void parseTextTest() {
-        String expected = text.toString();
+    public void parseParagraphTest() {
+        String expected = paragraph.toString().concat("\n");
         String actual = parser.parse("Test").toString();
         AssertJUnit.assertEquals(expected, actual);
     }

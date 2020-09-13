@@ -5,13 +5,13 @@ import by.restonov.infohandling.entity.TextComponent;
 
 import java.util.List;
 
-public class Symbol implements TextComponent {
-    private char symbol;
+public class Letter implements TextComponent {
+    private char letter;
     private ComponentType componentType;
 
-    public Symbol(char symbol) {
-        this.symbol = symbol;
-        componentType = ComponentType.SYMBOL;
+    public Letter(char letter) {
+        this.letter = letter;
+        this.componentType = ComponentType.LETTER;
     }
 
     @Override
@@ -31,14 +31,14 @@ public class Symbol implements TextComponent {
 
     @Override
     public List<TextComponent> getComponents() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String toString() {
-        var sb = new StringBuilder();
-        sb.append(symbol);
-        return sb.toString();
+        var builder = new StringBuilder();
+        builder.append(letter);
+        return builder.toString();
     }
 }
 
