@@ -40,4 +40,22 @@ public class Punctuation implements TextComponent {
         builder.append(punctuation);
         return builder.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Punctuation that = (Punctuation) o;
+
+        if (punctuation != that.punctuation) return false;
+        return componentType == that.componentType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = punctuation;
+        result = 31 * result + (componentType != null ? componentType.hashCode() : 0);
+        return result;
+    }
 }

@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 public class ParagraphBySentenceAmountSorter implements BaseSorter {
 
     @Override
-    public String sort(TextComponent textComponent) {
-        List<TextComponent> text = textComponent.getComponents();
-        text.sort(TextComparator.SENTENCES_AMOUNT);
-        return text.stream().map(TextComponent::toString).collect(Collectors.joining("\n"));
+    public String sort(TextComponent text) {
+        List<TextComponent> paragraphs = text.getComponents();
+        paragraphs.sort(TextComparator.SENTENCES_AMOUNT);
+        return paragraphs.stream().map(TextComponent::toString).collect(Collectors.joining("\n"));
     }
 }

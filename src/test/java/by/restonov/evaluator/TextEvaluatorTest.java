@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
         }
 
         @Test
-        public void interpretTest() {
+        public void evaluateTest() {
             String expected = "5";
             String actual = evaluator.evaluate(baseText);
             AssertJUnit.assertEquals(expected, actual);

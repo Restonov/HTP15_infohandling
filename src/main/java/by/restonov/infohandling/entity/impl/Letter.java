@@ -40,6 +40,24 @@ public class Letter implements TextComponent {
         builder.append(letter);
         return builder.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Letter letter1 = (Letter) o;
+
+        if (letter != letter1.letter) return false;
+        return componentType == letter1.componentType;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = letter;
+        result = 31 * result + (componentType != null ? componentType.hashCode() : 0);
+        return result;
+    }
 }
 
 
